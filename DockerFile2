@@ -1,0 +1,26 @@
+FROM golang
+
+RUN go get gopkg.in/yaml.v2
+RUN go get github.com/golang/text
+
+RUN rm -rf /usr/local/go/src/golang.org/x/
+
+RUN git clone https://github.com/golang/text.git /usr/local/go/src/golang.org/x/text
+
+RUN ls /usr/local/go/src/golang.org/x/text
+
+MAINTAINER Razil "zc6496359"
+
+WORKDIR $GOPATH/src/talos_agent
+
+
+ADD . $GOPATH/src/talos_agent
+
+RUN pwd
+RUN ls -lh
+
+RUN go build .
+
+EXPOSE 8080
+
+ENTRYPOINT ["./talos_agent"]
